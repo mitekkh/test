@@ -19,11 +19,16 @@ pipeline {
             }
         }
         
-        stage('jdk 17 / maven-3.9.9') {
+        stage('Build') {
             steps {
-                echo "JDK17 / maven-3.9.9============================="
-                sh 'java -version'
-                sh 'mvn -version'
+                script {
+                    try {
+                        sh 'mvn clean package'
+                    } catch (Exception e) {
+                        currentBuild.result = 'FAILURE'
+                        echo "Error occurred: ${e.message}"
+                    }
+                }
             }
         }
    	}
