@@ -23,7 +23,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=test -Dsonar.projectName='test' -Dsonar.host.url=http://172.17.0.2:9000 -Dsonar.token=sqp_0b5d9f5e9a9a0d04f1a67a1e0385faabf237a14c'
+                        sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=test2 -Dsonar.projectName='test2' -Dsonar.host.url=http://192.168.75.189:9000 -Dsonar.token=sqp_6818f8bafea3a45e4e03b1d0777a495669653632'
                     } catch (Exception e) {
                         currentBuild.result = 'FAILURE'
                         echo "Error occurred: ${e.message}"
