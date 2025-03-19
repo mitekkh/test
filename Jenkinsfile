@@ -18,16 +18,12 @@ pipeline {
                 git branch: 'main', credentialsId: 'github-token', url: 'https://github.com/mitekkh/test.git'
             }
         }
-        
-        stage('Build') {
-            steps {
-                script {
-                    try {
-                        sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=test2 -Dsonar.projectName='test2' -Dsonar.host.url=http://192.168.75.189:9000 -Dsonar.token=sqp_6818f8bafea3a45e4e03b1d0777a495669653632'
-                    } catch (Exception e) {
-                        currentBuild.result = 'FAILURE'
-                        echo "Error occurred: ${e.message}"
-                    }
+              
+        stage('SonarQube analysis') {
+            steps{
+                withSonarQubeEnv('SonarQube-Server'){
+                    sh "mvn clean package"
+                    sh "mvn sonar:sonar -Dsonar.projectKey=test2 -Dsonar.projectName='test2' -Dsonar.host.url=http://192.168.75.189:9000 -Dsonar.token=sqp_6818f8bafea3a45e4e03b1d0777a495669653632"
                 }
             }
         }
